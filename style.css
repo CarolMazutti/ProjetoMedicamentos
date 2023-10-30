@@ -1,0 +1,11 @@
+/* CSS para estilização básica */
+body {
+    font-family: Arial, sans-serif;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.tab-content {
+    display: none;
+}
