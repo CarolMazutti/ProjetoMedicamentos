@@ -1,8 +1,7 @@
-// Variáveis para armazenar dados
 const cliente = [];
 const fornecedor = [];
 const medicamento = [];
-const cart = [];
+const carrinho = [];
 
 // Exibir a guia
 function showTab(tabName) {
@@ -32,7 +31,7 @@ function addCliente() {
     }
 }
 
-// Atualizar a lista de clientes
+// Atualizar clientes
 function updateCliente() {
     const clienteList = document.getElementById("cliente-list");
     clienteList.innerHTML = "";
@@ -63,7 +62,7 @@ function addFornecedor() {
     }
 }
 
-// Função para atualizar a lista de fornecedores
+// Atualizar fornecedores
 function updateFornecedor() {
     const fornecedorList = document.getElementById("fornecedor-list");
     fornecedorList.innerHTML = "";
@@ -78,7 +77,7 @@ function updateFornecedor() {
     });
 }
 
-// Função para cadastrar medicamentos
+// Cadastrar medicamentos
 function addMedicamento() {
     const nome = document.getElementById("medicamento-nome").value;
     const quantidade = parseInt(document.getElementById("medicamento-quantidade").value);
@@ -91,7 +90,7 @@ function addMedicamento() {
     }
 }
 
-// Função para atualizar a lista de medicamentos
+// Atualizar medicamentos
 function updateMedicamento() {
     const medicamentoList = document.getElementById("medicamento-list");
     medicamentoList.innerHTML = "";
@@ -103,37 +102,56 @@ function updateMedicamento() {
     });
 }
 
-// Função para adicionar medicamento ao carrinho
-function addToCart(index) {
-    if (index >= 0 && index < medications.length) {
-        const selectedMedication = medications[index];
+// Adicionar medicamento ao carrinho
+function addToCarrinho(index) {
+    if (index >= 0 && index < medicamento.length) {
+        const selectedMedicamento = medicamento[index];
         
         // Verifique se o medicamento já está no carrinho
-        const existingCartItem = cart.find(item => item.name === selectedMedication.name);
+        const existingCarrinhoItem = carrinho.find(item => item.nome === selectedMedicamento.nome);
 
-        if (existingCartItem) {
+        if (existingCarrinhoItem) {
             // Se o medicamento já estiver no carrinho, apenas incremente a quantidade
-            existingCartItem.quantity += 1;
+            existingCarrinhoItem.quantidade += 1;
         } else {
             // Se o medicamento não estiver no carrinho, adicione-o
-            cart.push({ name: selectedMedication.name, quantity: 1 });
+            carrinho.push({ nome: selectedMedicamento.nome, quantidade: 1 });
         }
 
-        updateCart();
+        updateCarrinho();
     }
 }
 
-// Função para remover medicamento do carrinho (mesma lógica do exemplo anterior)
-function removeFromCart(index) {
-    // ...
+// Remove medicamentos do carrinho
+function removeFromCarrinho(index) {
+    const removedMedicamentos = carrinho.splice(index, 1)[0];
+    const matchingMedicamentos = medicamento.find(medicamento => medicamento.nome === removedMedicamento);
+    if (matchingMedicamento) {
+        matchingMedicamento.quantidade++;
+    }
+    updateMedicamentoList();
+    updateCarrinho();
 }
 
-// Função para atualizar o carrinho de compras (mesma lógica do exemplo anterior)
-function updateCart() {
-    // ...
+// Atualiza o carrinho
+function updateCarrinho() {
+    const carrinhoList = document.getElementById("carrinho");
+    carrinhoList.innerHTML = "";
+
+    carrinho.forEach((item, index) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `${item} - <button onclick="removeFromCarrinho(${index})">Remover</button>`;
+        carrinhoList.appendChild(listItem);
+    });
 }
 
-// Função para finalizar a compra (mesma lógica do exemplo anterior)
+// Finaliza a compra
 function checkout() {
-    // ...
+    if (carrinho.length === 0) {
+        alert("Carrinho de compras vazio. Adicione itens para finalizar a compra.");
+    } else {
+        alert("Compra finalizada com sucesso!");
+        carrinho.length = 0; // Limpa o carrinho
+        updateCarrinho();
+    }
 }
