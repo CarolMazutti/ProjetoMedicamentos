@@ -95,11 +95,13 @@ function updateMedicamento() {
     const medicamentoList = document.getElementById("medicamento-list");
     medicamentoList.innerHTML = "";
 
-    medicamento.forEach(medicamento => {
+    medicamento.forEach((medicamento, medicamentoIndex) => {
         const listItem = document.createElement("li");
-        listItem.textContent = `Nome: ${medicamento.nome} - Estoque: ${medicamento.quantidade}`;
+        listItem.innerHTML = `Nome: ${medicamento.nome} - Estoque: ${medicamento.quantidade} 
+        <button onclick="addToCarrinho(${medicamentoIndex})">Adicionar Carrinho</button>`;
         medicamentoList.appendChild(listItem);
     });
+    
 }
 
 // Adicionar medicamento ao carrinho
