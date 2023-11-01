@@ -119,21 +119,27 @@ function addToCarrinho(index) {
             // Se o medicamento não estiver, adiciona
             carrinho.push({ nome: selectedMedicamento.nome, quantidade: 1 });
         }
-
+        
         updateCarrinho();
     }
 }
 
 // Remove medicamentos do carrinho
 function removeFromCarrinho(index) {
-    const removedMedicamento = carrinho.splice(index, 1)[0];
-    const matchingMedicamento = medicamento.find(medicamento => medicamento.nome === removedMedicamento.nome);
-    if (matchingMedicamento) {
-        matchingMedicamento.quantidade++;
+    if (index >= 0 && index < carrinho.length) {
+        const removedMedicamento = carrinho.splice(index, 1)[0];
+
+        const matchingMedicamento = medicamento.find(medicamento => medicamento.nome === removedMedicamento.nome);
+
+        if (matchingMedicamento) {
+            matchingMedicamento.quantidade += 1; // Adicione o medicamento de volta ao estoque
+        }
+
+        updateMedicamento();
+        updateCarrinho();
     }
-    updateMedicamento();
-    updateCarrinho();
 }
+
 
 // Atualiza o carrinho
 function updateCarrinho() {
