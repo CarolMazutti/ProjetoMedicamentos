@@ -1,6 +1,8 @@
-/* CSS para estilização básica */
 body {
-    font-family: Arial, sans-serif;
+    font: 1rem/1.5 var(--bs-font-sans-serif);
+  }
+  a {
+    color: var(--bs-blue);
 }
 .container {
     max-width: 800px;
@@ -9,3 +11,4 @@ body {
 .tab-content {
     display: none;
 }
+

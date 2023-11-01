@@ -98,7 +98,7 @@ function updateMedicamento() {
     medicamento.forEach((medicamento, medicamentoIndex) => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `Nome: ${medicamento.nome} - Estoque: ${medicamento.quantidade} 
-        <button onclick="addToCarrinho(${medicamentoIndex})">Adicionar Carrinho</button>`;
+        <button onclick="addToCarrinho(${medicamentoIndex})" class="btn btn-outline-secondary">Adicionar Carrinho</button>`;
         medicamentoList.appendChild(listItem);
     });
     
@@ -109,14 +109,14 @@ function addToCarrinho(index) {
     if (index >= 0 && index < medicamento.length) {
         const selectedMedicamento = medicamento[index];
         
-        // Verifique se o medicamento já está no carrinho
+        // Verifica se o medicamento já está no carrinho
         const existingCarrinhoItem = carrinho.find(item => item.nome === selectedMedicamento.nome);
 
         if (existingCarrinhoItem) {
-            // Se o medicamento já estiver no carrinho, apenas incremente a quantidade
+            // Se o medicamento já estiver, apenas incremente a quantidade
             existingCarrinhoItem.quantidade += 1;
         } else {
-            // Se o medicamento não estiver no carrinho, adicione-o
+            // Se o medicamento não estiver, adiciona
             carrinho.push({ nome: selectedMedicamento.nome, quantidade: 1 });
         }
 
@@ -126,12 +126,12 @@ function addToCarrinho(index) {
 
 // Remove medicamentos do carrinho
 function removeFromCarrinho(index) {
-    const removedMedicamentos = carrinho.splice(index, 1)[0];
-    const matchingMedicamentos = medicamento.find(medicamento => medicamento.nome === removedMedicamento);
+    const removedMedicamento = carrinho.splice(index, 1)[0];
+    const matchingMedicamento = medicamento.find(medicamento => medicamento.nome === removedMedicamento.nome);
     if (matchingMedicamento) {
         matchingMedicamento.quantidade++;
     }
-    updateMedicamentoList();
+    updateMedicamento();
     updateCarrinho();
 }
 
@@ -142,10 +142,12 @@ function updateCarrinho() {
 
     carrinho.forEach((item, index) => {
         const listItem = document.createElement("li");
-        listItem.textContent = `${item} - <button onclick="removeFromCarrinho(${index})">Remover</button>`;
+        listItem.textContent = `Nome: ${item.nome} - Quantidade: ${item.quantidade} 
+        <button onclick="removeFromCarrinho(${index})" class="btn btn-outline-secondary">Excluir</button>`;
         carrinhoList.appendChild(listItem);
     });
 }
+
 
 // Finaliza a compra
 function checkout() {
