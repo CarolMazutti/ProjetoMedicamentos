@@ -40,7 +40,7 @@ function updateCliente() {
         const listItem = document.createElement("li");
         listItem.textContent = `Nome: ${cliente.name},
         Endereço: ${cliente.endereco},
-        Cidade: ${cliente.Cidade},
+        Cidade: ${cliente.cidade},
         Estado: ${cliente.estado}`;
         clienteList.appendChild(listItem);
     });
@@ -127,15 +127,7 @@ function addToCarrinho(index) {
 // Remove medicamentos do carrinho
 function removeFromCarrinho(index) {
     if (index >= 0 && index < carrinho.length) {
-        const removedMedicamento = carrinho.splice(index, 1)[0];
-
-        const matchingMedicamento = medicamento.find(medicamento => medicamento.nome === removedMedicamento.nome);
-
-        if (matchingMedicamento) {
-            matchingMedicamento.quantidade += 1; // Adicione o medicamento de volta ao estoque
-        }
-
-        updateMedicamento();
+        carrinho.splice(index, 1);
         updateCarrinho();
     }
 }
@@ -148,20 +140,37 @@ function updateCarrinho() {
 
     carrinho.forEach((item, index) => {
         const listItem = document.createElement("li");
-        listItem.textContent = `Nome: ${item.nome} - Quantidade: ${item.quantidade} 
+        listItem.innerHTML = `Nome: ${item.nome} - Quantidade: ${item.quantidade} 
         <button onclick="removeFromCarrinho(${index})" class="btn btn-outline-secondary">Excluir</button>`;
         carrinhoList.appendChild(listItem);
     });
 }
 
 
+
 // Finaliza a compra
+
+
 function checkout() {
     if (carrinho.length === 0) {
         alert("Carrinho de compras vazio. Adicione itens para finalizar a compra.");
     } else {
-        alert("Compra finalizada com sucesso!");
-        carrinho.length = 0; // Limpa o carrinho
+        // Atualiza a lista de estoque após a finalização da venda
+        carrinho.forEach(item => {
+            const matchingMedicamento = medicamento.find(medicamento => medicamento.nome === item.nome);
+            if (matchingMedicamento) {
+                matchingMedicamento.quantidade -= item.quantidade;
+            }
+        });
+
+        // Limpa o carrinho
+        carrinho.length = 0;
+        
+        // Atualiza as listas de estoque e carrinho
+        updateMedicamento();
         updateCarrinho();
+        
+        alert("Compra finalizada com sucesso!");
     }
 }
+
