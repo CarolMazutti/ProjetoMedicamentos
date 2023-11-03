@@ -124,18 +124,22 @@ function addMedicamento() {
 }
 
 // Atualiza medicamentos
+// Atualiza medicamentos
 function updateMedicamento() {
     const medicamentoList = document.getElementById("medicamento-list");
     medicamentoList.innerHTML = "";
 
-    medicamento.forEach((medicamento, medicamentoIndex) => {
+        medicamento.forEach((medicamento, medicamentoIndex) => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `Nome: ${medicamento.nome} - Estoque: ${medicamento.quantidade} 
         <button onclick="addToCarrinho(${medicamentoIndex})" class="btn btn-outline-secondary">Adicionar Carrinho</button>`;
         medicamentoList.appendChild(listItem);
     });
     
+        table.appendChild(tbody);
+    }
 }
+
 
 // Adiciona medicamento ao carrinho
 function addToCarrinho(index) {
