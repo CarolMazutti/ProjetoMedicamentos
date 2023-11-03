@@ -18,7 +18,7 @@ function showTab(tabName) {
 
 // Cadastra clientes 
 function addCliente() {
-    const clienteNome = document.getElementById("cliente-name").value;
+    const clienteNome = document.getElementById("cliente-nome").value;
     const clienteEndereco = document.getElementById("cliente-endereco").value;
     const clienteCidade = document.getElementById("cliente-cidade").value;
     const clienteEstado = document.getElementById("cliente-estado").value;
@@ -96,7 +96,7 @@ function updateFornecedor(fornecedor) {
     const contatoforn = document.createElement("td");
     contatoforn.textContent = fornecedor.contato;
 
-    const cidadeforne = document.createElement("td");
+    const cidadeforn = document.createElement("td");
     cidadeforn.textContent = fornecedor.cidade;
 
     const estadoforn = document.createElement("td");
@@ -123,21 +123,34 @@ function addMedicamento() {
     }
 }
 
-// Atualiza medicamentos
+
 // Atualiza medicamentos
 function updateMedicamento() {
     const medicamentoList = document.getElementById("medicamento-list");
     medicamentoList.innerHTML = "";
 
-        medicamento.forEach((medicamento, medicamentoIndex) => {
-        const listItem = document.createElement("li");
-        listItem.innerHTML = `Nome: ${medicamento.nome} - Estoque: ${medicamento.quantidade} 
-        <button onclick="addToCarrinho(${medicamentoIndex})" class="btn btn-outline-secondary">Adicionar Carrinho</button>`;
-        medicamentoList.appendChild(listItem);
+    medicamento.forEach((medicamento, medicamentoIndex) => {
+        const row = document.createElement("tr");
+
+        const nomeCell = document.createElement("td");
+        nomeCell.textContent = medicamento.nome;
+
+        const quantidadeCell = document.createElement("td");
+        quantidadeCell.textContent = medicamento.quantidade;
+
+        const carrinhoButtonCell = document.createElement("td");
+        const carrinhoButton = document.createElement("button");
+        carrinhoButton.textContent = "Adicionar ao Carrinho";
+        carrinhoButton.className = "btn btn-outline-secondary";
+        carrinhoButton.addEventListener("click", () => addToCarrinho(medicamentoIndex));
+        carrinhoButtonCell.appendChild(carrinhoButton);
+
+        row.appendChild(nomeCell);
+        row.appendChild(quantidadeCell);
+        row.appendChild(carrinhoButtonCell);
+
+        medicamentoList.appendChild(row);
     });
-    
-        table.appendChild(tbody);
-    }
 }
 
 
