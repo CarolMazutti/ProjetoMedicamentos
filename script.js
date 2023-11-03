@@ -26,6 +26,7 @@ function addCliente() {
     if (clienteNome && clienteEndereco && clienteCidade && clienteEstado) {
         cliente.push({ name: clienteNome, endereco: clienteEndereco, cidade: clienteCidade, estado: clienteEstado });
         updateCliente(cliente[cliente.length - 1]); // Passa o novo cliente para a função de atualização
+        prencherClienteDropdown() //Atualiza o dropdown de clientes no carrinho
     } else {
         alert("Por favor, preencha os campos corretamente.");
     }
@@ -194,6 +195,19 @@ function updateCarrinho() {
         carrinhoList.appendChild(listItem);
     });
 }
+
+function prencherClienteDropdown() {
+    const clienteSelect = document.getElementById("cliente-select");
+    clienteSelect.innerHTML = "<option value='0'>Selecione um cliente</option>";
+
+    cliente.forEach((c, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = c.name;
+        clienteSelect.appendChild(option);
+    });
+}
+
 
 // Finaliza a compra
 function checkout() {
