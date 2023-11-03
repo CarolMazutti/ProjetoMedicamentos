@@ -25,25 +25,36 @@ function addCliente() {
 
     if (clienteNome && clienteEndereco && clienteCidade && clienteEstado) {
         cliente.push({ name: clienteNome, endereco: clienteEndereco, cidade: clienteCidade, estado: clienteEstado });
-        updateCliente();
+        updateCliente(cliente[cliente.length - 1]); // Passa o novo cliente para a função de atualização
     } else {
         alert("Por favor, preencha os campos corretamente.");
     }
 }
 
 // Atualiza clientes
-function updateCliente() {
+function updateCliente(cliente) {
     const clienteList = document.getElementById("cliente-list");
-    clienteList.innerHTML = "";
 
-    cliente.forEach(cliente => {
-        const listItem = document.createElement("li");
-        listItem.textContent = `Nome: ${cliente.name},
-        Endereço: ${cliente.endereco},
-        Cidade: ${cliente.cidade},
-        Estado: ${cliente.estado}`;
-        clienteList.appendChild(listItem);
-    });
+    const row = document.createElement("tr");
+
+    const nomeCli = document.createElement("td");
+    nomeCli.textContent = cliente.name;
+
+    const enderecoCli = document.createElement("td");
+    enderecoCli.textContent = cliente.endereco;
+
+    const cidadeCli = document.createElement("td");
+    cidadeCli.textContent = cliente.cidade;
+
+    const estadoCli = document.createElement("td");
+    estadoCli.textContent = cliente.estado;
+
+    row.appendChild(nomeCli);
+    row.appendChild(enderecoCli);
+    row.appendChild(cidadeCli);
+    row.appendChild(estadoCli);
+
+    clienteList.appendChild(row);
 }
 
 function updateClientesSelect() {
@@ -67,25 +78,36 @@ function addFornecedor() {
 
     if (fornecedorNome && fornecedorContato && fornecedorCidade && fornecedorEstado) {
         fornecedor.push({ nome: fornecedorNome, contato: fornecedorContato, cidade: fornecedorCidade, estado: fornecedorEstado });
-        updateFornecedor();
+        updateFornecedor(fornecedor[fornecedor.length - 1]);
     } else {
         alert("Por favor, preencha os campos corretamente.");
     }
 }
 
 // Atualiza fornecedores
-function updateFornecedor() {
+function updateFornecedor(fornecedor) {
     const fornecedorList = document.getElementById("fornecedor-list");
-    fornecedorList.innerHTML = "";
 
-    fornecedor.forEach(fornecedor => {
-        const listItem = document.createElement("li");
-        listItem.textContent = `Nome: ${fornecedor.nome}, 
-        Contato: ${fornecedor.contato}
-        Cidade: ${fornecedor.cidade}
-        Estado: ${fornecedor.estado}`;
-        fornecedorList.appendChild(listItem);
-    });
+    const row = document.createElement("tr");
+
+    const nomeforn = document.createElement("td");
+    nomeforn.textContent = fornecedor.nome;
+
+    const contatoforn = document.createElement("td");
+    contatoforn.textContent = fornecedor.contato;
+
+    const cidadeforne = document.createElement("td");
+    cidadeforn.textContent = fornecedor.cidade;
+
+    const estadoforn = document.createElement("td");
+    estadoforn.textContent = fornecedor.estado;
+
+    row.appendChild(nomeforn);
+    row.appendChild(contatoforn);
+    row.appendChild(cidadeforn);
+    row.appendChild(estadoforn);
+
+    fornecedorList.appendChild(row);
 }
 
 // Cadastra medicamentos
@@ -158,8 +180,13 @@ function updateCarrinho() {
 
 // Finaliza a compra
 function checkout() {
+    //Verifica se tem estoque
+    const estoqueVazio = medicamento.some(item => item.quantidade <= 0);
+
     if (carrinho.length === 0) {
         alert("Carrinho de compras vazio. Adicione itens para finalizar a compra.");
+    } else if (estoqueVazio) {
+        alert("Estoque insuficiente.");
     } else {
         // Atualiza a lista de estoque após a finalização da venda
         carrinho.forEach(item => {

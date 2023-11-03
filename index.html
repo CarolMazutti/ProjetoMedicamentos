@@ -27,6 +27,7 @@
         
         <!-- Cadastro de Clientes -->
         <div id="cliente-tab" class="tab-content">
+            <br>
             <h2>Cadastro de Clientes</h2>
             <form id="cliente-form">
                 <input type="text" id="cliente-name" placeholder="Nome">
@@ -35,14 +36,26 @@
                 <input type="text" id="cliente-estado" placeholder="Estado">
                 <button type="button" onclick="addCliente()" class="btn btn-outline-secondary">Cadastrar Cliente</button>
             </form>
+            <br>
             <h2>Lista de Clientes</h2>
-            <ul id="cliente-list">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Endereço</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+            <tbody id="cliente-list">
                 <!-- Lista de clientes cadastrados (atualizada pelo JavaScript) -->
-            </ul>
+            </tbody>
+            </table>
         </div>
         
         <!-- Cadastro de Fornecedores -->
         <div id="fornecedores-tab" class="tab-content">
+            <br>
             <h2>Cadastro de Fornecedores</h2>
             <form id="fornecedor-form">
                 <input type="text" id="fornecedor-nome" placeholder="Nome">
@@ -51,14 +64,26 @@
                 <input type="text" id="fornecedor-estado" placeholder="Estado">
                 <button type="button" onclick="addFornecedor()" class="btn btn-outline-secondary">Cadastrar Fornecedor</button>
             </form>
+            <br>
             <h2>Lista de Fornecedores</h2>
-            <ul id="fornecedor-list">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Contato</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="fornecedor-list">
                 <!-- Lista de fornecedores cadastrados (atualizada pelo JavaScript) -->
-            </ul>
+                </tbody>
+            </table>
         </div>
         
         <!-- Controle de Estoque -->
         <div id="estoque-tab" class="tab-content">
+            <br>
             <h2>Controle de Estoque</h2>
             
             <!-- Formulário de cadastro de medicamentos -->
@@ -67,20 +92,32 @@
                 <input type="number" id="medicamento-quantidade" placeholder="Quantidade">
                 <button type="button" onclick="addMedicamento()" class="btn btn-outline-secondary">Cadastrar Medicamento</button>
             </form>
-            
+            <br>
             <h2>Lista de Medicamentos em Estoque</h2>
-            <ul id="medicamento-list">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Contato</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+            <tbody id="medicamento-list">
                 <!-- Lista de medicamentos cadastrados (atualizada pelo JavaScript) -->
-            </ul>
+            </tbody>
+            </table>
         </div>
         
         <!-- Carrinho de Compras -->
         <div id="carrinho-tab" class="tab-content">
+            <br>
             <h2>Carrinho de Compras</h2>
+            <br>
             <label for="cliente-select">Selecione o Cliente:</label>
             <select id="cliente-select">
                 <option value="0">Selecione um cliente</option>
-            </select>
+            </select><br><br>
             <ul id="carrinho">
                 <!-- Itens do carrinho de compras e botões de finalização (atualizados pelo JavaScript) -->
             </ul>
