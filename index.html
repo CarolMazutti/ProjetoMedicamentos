@@ -90,6 +90,10 @@
             <form id="Medicamento">
                 <input type="text" id="medicamento-nome" placeholder="Nome">
                 <input type="number" id="medicamento-quantidade" placeholder="Quantidade">
+                <label for="fornecedor-dropdown">Selecione o Fornecedor:</label>
+                <select id="fornecedor-dropdown">
+                    <option value="0">Selecione um fornecedor</option>
+                </select>
                 <button type="button" onclick="addMedicamento()" class="btn btn-outline-secondary">Cadastrar Medicamento</button>
             </form>
             <br>
@@ -99,6 +103,7 @@
                     <tr>
                         <th>Nome</th>
                         <th>Quantidade</th>
+                        <th>Fornecedor</th>
                     </tr>
                 </thead>
                 <tbody id="medicamento-list">

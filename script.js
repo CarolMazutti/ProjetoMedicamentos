@@ -111,6 +111,14 @@ function updateFornecedor(fornecedor) {
     row.appendChild(estadoforn);
 
     fornecedorList.appendChild(row);
+
+    // Atualize o dropdown de fornecedores no cad de medic
+    const fornecedorDropdown = document.getElementById("fornecedor-dropdown");
+    const option = document.createElement("option");
+    option.value = fornecedor.nome;
+    option.textContent = fornecedor.nome;
+    fornecedorDropdown.appendChild(option);
+
 }
 
 // Cadastra medicamentos
@@ -118,8 +126,17 @@ function addMedicamento() {
     const nome = document.getElementById("medicamento-nome").value;
     const quantidade = parseInt(document.getElementById("medicamento-quantidade").value);
 
-    if (nome && quantidade > 0) {
-        medicamento.push({ nome, quantidade });
+    const fornecedorDropdown = document.getElementById("fornecedor-dropdown");
+    const fornecedorSelecionado = fornecedorDropdown.options[fornecedorDropdown.selectedIndex].value; // Acessa as informações de fornec para trazer ao menu dropdown
+
+    if (nome && quantidade > 0 && fornecedorSelecionado !== "0") {
+        const existingMedicamento = medicamento.find(item => item.nome === nome); // Verifica se já tem na lista
+        if (existingMedicamento) {
+            existingMedicamento.quantidade += quantidade;
+            existingMedicamento.fornecedor = fornecedorSelecionado;
+        } else {
+            medicamento.push({ nome, quantidade, fornecedor: fornecedorSelecionado });
+        }
         updateMedicamento();
         limpaCampos("Medicamento"); // Limpa os campos do fomulário
     } else {
@@ -136,22 +153,28 @@ function updateMedicamento() {
     medicamento.forEach((medicamento, medicamentoIndex) => {
         const row = document.createElement("tr");
 
-        const nomeCell = document.createElement("td");
-        nomeCell.textContent = medicamento.nome;
+        const nomeMedic = document.createElement("td");
+        nomeMedic.textContent = medicamento.nome;
 
-        const quantidadeCell = document.createElement("td");
-        quantidadeCell.textContent = medicamento.quantidade;
+        const quantidadeMedic = document.createElement("td");
+        quantidadeMedic.textContent = medicamento.quantidade;
 
-        const carrinhoButtonCell = document.createElement("td");
+        // Adiciona a coluna do fornecedor
+        const fornecedorMedic = document.createElement("td");
+        fornecedorMedic.textContent = medicamento.fornecedor;
+
+        const carrinhoButtonMedic = document.createElement("td");
         const carrinhoButton = document.createElement("button");
         carrinhoButton.textContent = "Adicionar ao Carrinho";
         carrinhoButton.className = "btn btn-outline-secondary";
         carrinhoButton.addEventListener("click", () => addToCarrinho(medicamentoIndex));
-        carrinhoButtonCell.appendChild(carrinhoButton);
 
-        row.appendChild(nomeCell);
-        row.appendChild(quantidadeCell);
-        row.appendChild(carrinhoButtonCell);
+        carrinhoButtonMedic.appendChild(carrinhoButton);
+
+        row.appendChild(nomeMedic);
+        row.appendChild(quantidadeMedic);
+        row.appendChild(fornecedorMedic); // Adiciona a coluna do fornecedor
+        row.appendChild(carrinhoButtonMedic);
 
         medicamentoList.appendChild(row);
     });
