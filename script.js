@@ -27,6 +27,7 @@ function addCliente() {
         cliente.push({ name: clienteNome, endereco: clienteEndereco, cidade: clienteCidade, estado: clienteEstado });
         updateCliente(cliente[cliente.length - 1]); // Passa o novo cliente para a função de atualização
         prencherClienteDropdown() //Atualiza o dropdown de clientes no carrinho
+        limpaCampos("cliente-form"); // Limpa os campos do fomulário
     } else {
         alert("Por favor, preencha os campos corretamente.");
     }
@@ -80,6 +81,7 @@ function addFornecedor() {
     if (fornecedorNome && fornecedorContato && fornecedorCidade && fornecedorEstado) {
         fornecedor.push({ nome: fornecedorNome, contato: fornecedorContato, cidade: fornecedorCidade, estado: fornecedorEstado });
         updateFornecedor(fornecedor[fornecedor.length - 1]);
+        limpaCampos("fornecedor-form"); // Limpa os campos do fomulário
     } else {
         alert("Por favor, preencha os campos corretamente.");
     }
@@ -119,6 +121,7 @@ function addMedicamento() {
     if (nome && quantidade > 0) {
         medicamento.push({ nome, quantidade });
         updateMedicamento();
+        limpaCampos("Medicamento"); // Limpa os campos do fomulário
     } else {
         alert("Por favor, preencha os campos corretamente.");
     }
@@ -233,8 +236,19 @@ function checkout() {
         // Atualiza as listas de estoque e carrinho
         updateMedicamento();
         updateCarrinho();
+        // Limpa os campos nos menus dropdown no carrinho de compras
+        const clienteSelect = document.getElementById("cliente-select");
+        clienteSelect.value = "0"; // Redefine a seleção para "Selecione um cliente"
         
         alert("Compra finalizada com sucesso!");
+    }
+}
+
+// Função globla para limpar campos
+function limpaCampos(formId) {
+    const form = document.getElementById(formId);
+    if (form) {
+        form.reset();
     }
 }
 
