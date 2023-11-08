@@ -363,11 +363,12 @@ function updateMedicamento() {
         const carrinhoButton = document.createElement("button");
         carrinhoButton.textContent = "Adicionar ao Carrinho";
         carrinhoButton.className = "btn btn-outline-secondary";
-        carrinhoButton.addEventListener("click", () => addToCarrinho(medicamentoIndex));
+        carrinhoButton.addEventListener("click", () => addMedicamentoToCarrinho(medicamentoIndex));
 
         carrinhoButtonMedic.appendChild(carrinhoButton);
 
         const acoesMedic = document.createElement("td");
+
         // Botão "Editar"
         const editarButtonMedic = document.createElement("td");
         const editarButton = document.createElement("button");
@@ -386,7 +387,6 @@ function updateMedicamento() {
 
         excluirButtonMedic.appendChild(excluirButton);
 
-        
         row.appendChild(nomeMedic);
         row.appendChild(quantidadeMedic);
         row.appendChild(fornecedorMedic); // Adiciona a coluna do fornecedor
@@ -427,22 +427,28 @@ function excluirMedicamento(index) {
 
 
 // Adiciona medicamento ao carrinho
-function addToCarrinho(index) {
+function addMedicamentoToCarrinho(index) {
     if (index >= 0 && index < medicamento.length) {
         const selectedMedicamento = medicamento[index];
+        const quantidadeInformada = prompt(`Informe a quantidade desejada de ${selectedMedicamento.nome}:`);
+        const quantidadeDesejada = parseInt(quantidadeInformada);
         
-        // Verifica se o medicamento já está no carrinho
-        const existingCarrinhoItem = carrinho.find(item => item.nome === selectedMedicamento.nome);
+        if (!isNaN(quantidadeDesejada) && quantidadeDesejada > 0) {
+            // Verifica se o medicamento já está no carrinho
+            const existingCarrinhoItem = carrinho.find(item => item.nome === selectedMedicamento.nome);
 
-        if (existingCarrinhoItem) {
-            // Se o medicamento já estiver, apenas incremente a quantidade
-            existingCarrinhoItem.quantidade += 1;
+            if (existingCarrinhoItem) {
+                // Se o medicamento já estiver, apenas atualize a quantidade
+                existingCarrinhoItem.quantidade += quantidadeDesejada;
+            } else {
+                // Se o medicamento não estiver, adicione com a quantidade desejada
+                carrinho.push({ nome: selectedMedicamento.nome, quantidade: quantidadeDesejada });
+            }
+
+            updateCarrinho();
         } else {
-            // Se o medicamento não estiver, adiciona
-            carrinho.push({ nome: selectedMedicamento.nome, quantidade: 1 });
+            alert("Quantidade inválida. Certifique-se de inserir um número válido maior que zero.");
         }
-        
-        updateCarrinho();
     }
 }
 
