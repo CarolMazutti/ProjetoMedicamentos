@@ -31,10 +31,12 @@ function addCliente() {
     } else {
         alert("Por favor, preencha os campos corretamente.");
     }
+
+    updateClienteList();
 }
 
 // Atualiza clientes
-function updateCliente(cliente) {
+function updateCliente(cliente, index) {
     const clienteList = document.getElementById("cliente-list");
 
     const row = document.createElement("tr");
@@ -51,13 +53,108 @@ function updateCliente(cliente) {
     const estadoCli = document.createElement("td");
     estadoCli.textContent = cliente.estado;
 
+    const acoesCli = document.createElement("td");
+    
+    // Botão "Editar"
+    const editarButton = document.createElement("button");
+    editarButton.textContent = "Editar";
+    editarButton.className = "btn btn-outline-secondary";
+    editarButton.addEventListener("click", () => editarCliente(index));
+
+    // Botão "Excluir"
+    const excluirButton = document.createElement("button");
+    excluirButton.textContent = "Excluir";
+    excluirButton.className = "btn btn-outline-secondary";
+    excluirButton.addEventListener("click", () => excluirCliente(index));
+
+    acoesCli.appendChild(editarButton);
+    acoesCli.appendChild(excluirButton);
+
     row.appendChild(nomeCli);
     row.appendChild(enderecoCli);
     row.appendChild(cidadeCli);
     row.appendChild(estadoCli);
+    row.appendChild(acoesCli);
 
     clienteList.appendChild(row);
 }
+
+function updateClienteList() {
+    const clienteList = document.getElementById("cliente-list");
+    clienteList.innerHTML = ""; // Limpa a lista atual
+
+    cliente.forEach((c, index) => {
+        const row = document.createElement("tr");
+
+        const nomeCli = document.createElement("td");
+        nomeCli.textContent = c.name;
+
+        const enderecoCli = document.createElement("td");
+        enderecoCli.textContent = c.endereco;
+
+        const cidadeCli = document.createElement("td");
+        cidadeCli.textContent = c.cidade;
+
+        const estadoCli = document.createElement("td");
+        estadoCli.textContent = c.estado;
+
+        const acoesCli = document.createElement("td");
+
+        const editarButton = document.createElement("button");
+        editarButton.textContent = "Editar";
+        editarButton.className = "btn btn-outline-secondary";
+        editarButton.addEventListener("click", () => editarCliente(index));
+
+        const excluirButton = document.createElement("button");
+        excluirButton.textContent = "Excluir";
+        excluirButton.className = "btn btn-outline-secondary";
+        excluirButton.addEventListener("click", () => excluirCliente(index));
+
+        acoesCli.appendChild(editarButton);
+        acoesCli.appendChild(excluirButton);
+
+        row.appendChild(nomeCli);
+        row.appendChild(enderecoCli);
+        row.appendChild(cidadeCli);
+        row.appendChild(estadoCli);
+        row.appendChild(acoesCli);
+
+        clienteList.appendChild(row);
+    });
+}
+
+// Editar cliente
+function editarCliente(index) {
+    const clienteEdit = cliente[index];
+
+    // Preencha os campos do formulário com os dados do cliente a ser editado
+    document.getElementById("cliente-nome").value = clienteEdit.name;
+    document.getElementById("cliente-endereco").value = clienteEdit.endereco;
+    document.getElementById("cliente-cidade").value = clienteEdit.cidade;
+    document.getElementById("cliente-estado").value = clienteEdit.estado;
+
+    // Após editar, remova o cliente da lista
+    cliente.splice(index, 1);
+
+    // Atualiza a lista de clientes
+    updateClienteList(); // Alterei a chamada dessa função
+
+    // Atualiza o menu dropdown no carrinho após excluir um cliente
+    prencherClienteDropdown();
+}
+
+// Excluir cliente
+function excluirCliente(index) {
+    // Remove o cliente da lista
+    cliente.splice(index, 1);
+
+    // Atualiza a lista de clientes
+    updateClienteList(); // Alterei a chamada dessa função
+
+    // Atualiza o menu dropdown no carrinho após excluir um cliente
+    prencherClienteDropdown();
+}
+
 
 function updateClientesSelect() {
     const clienteSelect = document.getElementById("cliente-select");
@@ -119,6 +216,86 @@ function updateFornecedor(fornecedor) {
     option.textContent = fornecedor.nome;
     fornecedorDropdown.appendChild(option);
 
+    updateFornecedorList();
+
+}
+
+function updateFornecedorList() {
+    const fornecedorList = document.getElementById("fornecedor-list");
+    fornecedorList.innerHTML = ""; // Limpa a lista atual
+
+    fornecedor.forEach((f, index) => {
+        const row = document.createElement("tr");
+
+        const nomeForn = document.createElement("td");
+        nomeForn.textContent = f.nome;
+
+        const contatoForn = document.createElement("td");
+        contatoForn.textContent = f.contato;
+
+        const cidadeForn = document.createElement("td");
+        cidadeForn.textContent = f.cidade;
+
+        const estadoForn = document.createElement("td");
+        estadoForn.textContent = f.estado;
+
+        const acoesForn = document.createElement("td");
+
+        // Botão "Editar"
+        const editarButton = document.createElement("button");
+        editarButton.textContent = "Editar";
+        editarButton.className = "btn btn-outline-secondary";
+        editarButton.addEventListener("click", () => editarFornecedor(index));
+
+        // Botão "Excluir"
+        const excluirButton = document.createElement("button");
+        excluirButton.textContent = "Excluir";
+        excluirButton.className = "btn btn-outline-secondary";
+        excluirButton.addEventListener("click", () => excluirFornecedor(index));
+
+        acoesForn.appendChild(editarButton);
+        acoesForn.appendChild(excluirButton);
+
+        row.appendChild(nomeForn);
+        row.appendChild(contatoForn);
+        row.appendChild(cidadeForn);
+        row.appendChild(estadoForn);
+        row.appendChild(acoesForn);
+
+        fornecedorList.appendChild(row);
+    });
+}
+
+// Editar fornecedor
+function editarFornecedor(index) {
+    const fornecedorEdit = fornecedor[index];
+
+    // Preencha os campos do formulário com os dados do fornecedor a ser editado
+    document.getElementById("fornecedor-nome").value = fornecedorEdit.nome;
+    document.getElementById("fornecedor-contato").value = fornecedorEdit.contato;
+    document.getElementById("fornecedor-cidade").value = fornecedorEdit.cidade;
+    document.getElementById("fornecedor-estado").value = fornecedorEdit.estado;
+
+    // Após editar, remova o fornecedor da lista
+    fornecedor.splice(index, 1);
+
+    // Atualize a lista de fornecedores
+    updateFornecedorList();
+
+    // Atualize o menu dropdown no formulário de cadastro de medicamentos
+    updateFornecedor(fornecedorEdit);
+}
+
+// Excluir fornecedor
+function excluirFornecedor(index) {
+    // Remove o fornecedor da lista
+    fornecedor.splice(index, 1);
+
+    // Atualize a lista de fornecedores
+    updateFornecedorList();
+
+    // Atualize o menu dropdown no formulário de cadastro de medicamentos
+    updateFornecedor(fornecedorEdit);
 }
 
 // Cadastra medicamentos
