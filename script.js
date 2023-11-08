@@ -322,15 +322,14 @@ function excluirFornecedor(index) {
 function addMedicamento() {
     const nome = document.getElementById("medicamento-nome").value;
     const quantidade = parseInt(document.getElementById("medicamento-quantidade").value);
-
     const fornecedorDropdown = document.getElementById("fornecedor-dropdown");
-const fornecedorSelecionado = fornecedorDropdown.value; // Acessa as informações de fornec para trazer ao menu dropdown
+    const fornecedorSelecionado = fornecedorDropdown.value; // Acessa as informações de fornec para trazer ao menu dropdown
 
     if (nome && quantidade > 0 && fornecedorSelecionado !== "0") {
-        const existingMedicamento = medicamento.find(item => item.nome === nome); // Verifica se já tem na lista
+        const existingMedicamento = medicamento.find(item => item.nome === nome && item.fornecedor === fornecedorSelecionado); // Verifica se já tem na lista
+
         if (existingMedicamento) {
             existingMedicamento.quantidade += quantidade;
-            existingMedicamento.fornecedor = fornecedorSelecionado;
         } else {
             medicamento.push({ nome, quantidade, fornecedor: fornecedorSelecionado });
         }
@@ -368,14 +367,63 @@ function updateMedicamento() {
 
         carrinhoButtonMedic.appendChild(carrinhoButton);
 
+        const acoesMedic = document.createElement("td");
+        // Botão "Editar"
+        const editarButtonMedic = document.createElement("td");
+        const editarButton = document.createElement("button");
+        editarButton.textContent = "Editar";
+        editarButton.className = "btn btn-outline-secondary";
+        editarButton.addEventListener("click", () => editarMedicamento(medicamentoIndex));
+
+        editarButtonMedic.appendChild(editarButton);
+
+        // Botão "Excluir"
+        const excluirButtonMedic = document.createElement("td");
+        const excluirButton = document.createElement("button");
+        excluirButton.textContent = "Excluir";
+        excluirButton.className = "btn btn-outline-secondary";
+        excluirButton.addEventListener("click", () => excluirMedicamento(medicamentoIndex));
+
+        excluirButtonMedic.appendChild(excluirButton);
+
+        
         row.appendChild(nomeMedic);
         row.appendChild(quantidadeMedic);
         row.appendChild(fornecedorMedic); // Adiciona a coluna do fornecedor
         row.appendChild(carrinhoButtonMedic);
+        row.appendChild(editarButtonMedic);
+        row.appendChild(excluirButtonMedic);
 
         medicamentoList.appendChild(row);
     });
 }
+
+// Editar medicamento
+function editarMedicamento(index) {
+    const medicamentoEdit = medicamento[index];
+
+    // Preencha os campos do formulário com os dados do medicamento a ser editado
+    document.getElementById("medicamento-nome").value = medicamentoEdit.nome;
+    document.getElementById("medicamento-quantidade").value = medicamentoEdit.quantidade;
+    const fornecedorDropdown = document.getElementById("fornecedor-dropdown");
+    fornecedorDropdown.value = medicamentoEdit.fornecedor;
+
+    // Após editar, remova o medicamento da lista
+    medicamento.splice(index, 1);
+
+    // Atualize a lista de medicamentos em estoque
+    updateMedicamento();
+}
+
+// Excluir medicamento
+function excluirMedicamento(index) {
+    // Remove o medicamento da lista
+    medicamento.splice(index, 1);
+
+    // Atualize a lista de medicamentos em estoque
+    updateMedicamento();
+}
+
 
 
 // Adiciona medicamento ao carrinho
