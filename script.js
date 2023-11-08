@@ -182,6 +182,7 @@ function addFornecedor() {
     } else {
         alert("Por favor, preencha os campos corretamente.");
     }
+    updateFornecedorDropdown();
 }
 
 // Atualiza fornecedores
@@ -216,13 +217,32 @@ function updateFornecedor(fornecedor) {
     option.textContent = fornecedor.nome;
     fornecedorDropdown.appendChild(option);
 
+    // Atualize o dropdown de fornecedores no cadastro de medicamentos
+    updateFornecedorDropdown();
+
     updateFornecedorList();
 
+}
+
+function updateFornecedorDropdown() {
+    const fornecedorDropdown = document.getElementById("fornecedor-dropdown");
+    fornecedorDropdown.innerHTML = "<option value='0'>Selecione um fornecedor</option>"; // Limpa o menu dropdown
+
+    fornecedor.forEach((f, index) => {
+        const option = document.createElement("option");
+        option.value = f.nome;
+        option.textContent = f.nome;
+        fornecedorDropdown.appendChild(option);
+    });
+    
 }
 
 function updateFornecedorList() {
     const fornecedorList = document.getElementById("fornecedor-list");
     fornecedorList.innerHTML = ""; // Limpa a lista atual
+
+    const fornecedorDropdown = document.getElementById("fornecedor-dropdown");
+    fornecedorDropdown.innerHTML = "<option value='0'>Selecione um fornecedor</option>"; // Limpa o menu dropdown
 
     fornecedor.forEach((f, index) => {
         const row = document.createElement("tr");
@@ -282,8 +302,8 @@ function editarFornecedor(index) {
     // Atualize a lista de fornecedores
     updateFornecedorList();
 
-    // Atualize o menu dropdown no formulário de cadastro de medicamentos
-    updateFornecedor(fornecedorEdit);
+    updateFornecedorDropdown();
+
 }
 
 // Excluir fornecedor
@@ -295,7 +315,7 @@ function excluirFornecedor(index) {
     updateFornecedorList();
 
     // Atualize o menu dropdown no formulário de cadastro de medicamentos
-    updateFornecedor(fornecedorEdit);
+    updateFornecedorDropdown();
 }
 
 // Cadastra medicamentos
@@ -304,7 +324,7 @@ function addMedicamento() {
     const quantidade = parseInt(document.getElementById("medicamento-quantidade").value);
 
     const fornecedorDropdown = document.getElementById("fornecedor-dropdown");
-    const fornecedorSelecionado = fornecedorDropdown.options[fornecedorDropdown.selectedIndex].value; // Acessa as informações de fornec para trazer ao menu dropdown
+const fornecedorSelecionado = fornecedorDropdown.value; // Acessa as informações de fornec para trazer ao menu dropdown
 
     if (nome && quantidade > 0 && fornecedorSelecionado !== "0") {
         const existingMedicamento = medicamento.find(item => item.nome === nome); // Verifica se já tem na lista
